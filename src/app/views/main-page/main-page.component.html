@@ -1,0 +1,122 @@
+<button (click)="logout()" style="float: right;" mat-raised-button color="warn">Deconectare</button>
+<br><br><br><br>
+<div class="form">
+  <mat-form-field class="form-text" *ngIf="searchType=='eventType'" appearance="fill">
+    <mat-label>Tipul de Eveniment</mat-label>
+    <mat-select [(value)]="typeSearch">
+      <mat-option *ngFor="let userType of eventTypeSearch" [value]="userType">
+        {{userType}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="searchType!='eventType'" class="form-text">
+  <mat-label>Cauta</mat-label>
+  <input type="text" matInput placeholder="ex. Teo" [(ngModel)]="search">
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Tipul de utilizator</mat-label>
+  <mat-select [(value)]="searchType">
+    <mat-option *ngFor="let userType of userTypes" [value]="userType.value">
+      {{userType.viewValue}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button class="mat-button" (click)="filter()" mat-raised-button color="primary">Cauta</button>
+<br>
+</div>
+<div class="form" *ngIf="currentUser.userType=='organizer'">
+<mat-form-field class="form-text">
+  <mat-label>Nume Eveniment</mat-label>
+  <input type="text" matInput placeholder="Nume" [(ngModel)]="newName">
+</mat-form-field>
+<mat-form-field class="form-text">
+  <mat-label>Organizator</mat-label>
+  <input type="text" matInput placeholder="Email-ul organizatorului" [(ngModel)]="newOrg">
+</mat-form-field>
+<mat-form-field class="form-text">
+  <mat-label>Tipul Evenimentului</mat-label>
+  <input type="text" matInput placeholder="Tip Eveniment" [(ngModel)]="newType">
+</mat-form-field>
+<mat-form-field class="form-text">
+  <mat-label>Invitat</mat-label>
+  <input type="text" matInput placeholder="Email-ul invitatului" [(ngModel)]="newGuests">
+</mat-form-field>
+<button class="mat-button" (click)="addEvent()" mat-raised-button color="primary">Trimite</button>
+<br>
+</div>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Nume Eveniment </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="organizerName">
+    <th mat-header-cell *matHeaderCellDef> Organizator </th>
+    <td mat-cell *matCellDef="let element"> {{element.organizerName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="eventType">
+    <th mat-header-cell *matHeaderCellDef> Tip Eveniment </th>
+    <td mat-cell *matCellDef="let element"> {{element.eventType}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="guests">
+    <th mat-header-cell *matHeaderCellDef> Invitati </th>
+    <td mat-cell *matCellDef="let element"> {{element.guests}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="grade">
+    <th mat-header-cell *matHeaderCellDef> Nota </th>
+    <td mat-cell *matCellDef="let element"> {{element.grade}} </td>
+  </ng-container>
+
+  <!-- Buttons Column -->
+  <ng-container matColumnDef="buttons">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <button *ngIf="element.review < 1" mat-icon-button color="disabled" (click)="rateEvent(element, 1)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review >= 1" mat-icon-button color="warn" (click)="rateEvent(element, 1)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review < 2" mat-icon-button color="disabled" (click)="rateEvent(element, 2)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review >= 2" mat-icon-button color="warn" (click)="rateEvent(element, 2)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review < 3" mat-icon-button color="disabled" (click)="rateEvent(element, 3)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review >= 3" mat-icon-button color="warn" (click)="rateEvent(element, 3)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review < 4" mat-icon-button color="disabled" (click)="rateEvent(element, 4)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review >= 4" mat-icon-button color="warn" (click)="rateEvent(element, 4)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review < 5" mat-icon-button color="disabled" (click)="rateEvent(element, 5)">
+        <mat-icon>star</mat-icon>
+      </button>
+      <button *ngIf="element.review >= 5" mat-icon-button color="warn" (click)="rateEvent(element, 5)">
+        <mat-icon>star</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+

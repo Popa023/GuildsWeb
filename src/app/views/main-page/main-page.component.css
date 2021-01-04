@@ -1,0 +1,13 @@
+table {
+  width: 80%;
+  margin: auto;
+}
+.form-text{
+  padding: 20px;
+}
+.mat-button{
+  margin-left: 20px;
+}
+.form{
+  text-align: center;
+}
