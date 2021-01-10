@@ -1,18 +1,26 @@
+import {Character} from './character';
+import {Warehouse} from './warehouse';
+
 export class User {
-  id: number;
-  userName: string;
-  userToken: string;
-  userEmail: string;
-  userType: string;
-  userRating: number;
-  userReviews: number;
-  constructor(id: number, name: string, token: string, email: string, userType: string, rating: number, reviews: number) {
+  id: string;
+  uname: string;
+  uemail: string;
+  ukingdom: string;
+  ukingdomFavor: number;
+  uvictories: number;
+  uwarehouse: Warehouse;
+  ucharacter: Character;
+
+  constructor(id: string, uName: string, uEmail: string, uKingdom: string,
+              uKingdomFavor: number, uVictories: number, uWarehouse: Warehouse, uCharacter: Character) {
     this.id = id;
-    this.userName = name;
-    this.userToken = token;
-    this.userEmail = email;
-    this.userType = userType;
-    this.userRating = rating;
-    this.userReviews = reviews;
+    this.uname = uName;
+    this.uemail = uEmail;
+    this.ukingdom = uKingdom;
+    this.ukingdomFavor = uKingdomFavor;
+    this.uvictories = uVictories;
+    this.uwarehouse = uWarehouse;
+    this.ucharacter = uCharacter;
+
   }
 }

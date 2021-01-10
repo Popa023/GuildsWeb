@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import firebase from 'firebase';
 import {User} from '../models/user';
 import {CommunicationService} from './communication.service';
+import {UserSession} from '../utils/user-session';
 
 @Injectable({
   providedIn: 'root'
@@ -11,86 +12,88 @@ export class FirebaseAuthService {
 
   constructor(
     private router: Router,
-    private communicationService: CommunicationService
+    private communicationService: CommunicationService,
+    private userSession: UserSession
   ) {
-    // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
-      apiKey: 'AIzaSyCyQah4d8QHwQTGaELxu1Se2TTUz1e8w8U',
-      authDomain: 'partyhard-de038.firebaseapp.com',
-      projectId: 'partyhard-de038',
-      storageBucket: 'partyhard-de038.appspot.com',
-      messagingSenderId: '568191188178',
-      appId: '1:568191188178:web:646f5da24fe338818c810b',
-      measurementId: 'G-QQW0V2E8PZ'
+      apiKey: 'AIzaSyBO1laqMr67uID91MFH1zXxsDohpb-p16g',
+      authDomain: 'guilds-aa30d.firebaseapp.com',
+      projectId: 'guilds-aa30d',
+      storageBucket: 'guilds-aa30d.appspot.com',
+      messagingSenderId: '310166906352',
+      appId: '1:310166906352:web:b4d8cdeca3a6318edea935',
+      measurementId: 'G-L8PRV8BY1H'
     };
     // Initialize Firebase
+    userSession.init();
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
   }
-  login(account: User, password: string){
+  login(account: User, password: string): void{
     // tslint:disable-next-line:only-arrow-functions
-    firebase.auth().signInWithEmailAndPassword(account.userEmail, password).catch(function(error) {
+    firebase.auth().signInWithEmailAndPassword(account.uemail, password).catch(function(error): void{
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
       // ...
-    }).then(function() {
-      firebase.auth().onAuthStateChanged(async user => {
-        if (user) {
-          // User is signed in.
-        }
-      });
     });
+    this.getUser();
   }
-  signup(account: User, password: string){
+  signup(account: User, password: string): void{
     const communication = this.communicationService;
     // tslint:disable-next-line:triple-equals
     // const communicationService = this.communicationService;
     // tslint:disable-next-line:triple-equals
-    firebase.auth().createUserWithEmailAndPassword(account.userEmail, password)
+    firebase.auth().createUserWithEmailAndPassword(account.uemail, password)
       .then((user) => {
         // Signed in
         // ...
         if (user) {
           // User is signed in.
           if (user.user) {
-            account.userToken = user.user.uid;
+            account.id = user.user.uid;
             communication.addUser(account).subscribe();
           }
         }
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        const errorCode = error.code;
+        const errorMessage = error.message;
         // ..
         console.log(errorMessage);
       });
+    this.getUser();
   }
-  logout() {
+  logout(): void{
     // tslint:disable-next-line:only-arrow-functions
-    firebase.auth().signOut().then(function() {
+    firebase.auth().signOut().then(() => {
       // Sign-out successful.
-      // tslint:disable-next-line:only-arrow-functions
-    }).catch(function(error) {
+      this.getUser();
+    }).catch((error) => {
       // An error happened.
     });
+    this.getUser();
   }
 
-  getUser(){
+  getUser(): void{
     // tslint:disable-next-line:only-arrow-functions
     firebase.auth().onAuthStateChanged( user => {
       if (user) {
         // User is signed in.
-        this.router.navigate(['/main-page']);
-        return user.uid;
+        console.log('in getUser');
+        console.log(user.uid);
+        this.communicationService.getUser(user.uid).subscribe((data) => this.loadUser(data));
       } else {
         // No user is signed in.
         this.router.navigate(['/login']);
-        return 'nimic';
       }
     });
   }
-  getCurrentUser() {
-    return firebase.auth().currentUser;
+  loadUser(data: User): void{
+    console.log('in loaduser');
+    this.userSession.updateUser(data);
+    console.log(this.userSession.getUser());
+    this.router.navigate(['/main-page']);
   }
 }

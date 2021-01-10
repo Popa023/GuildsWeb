@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Event} from '../models/Event';
+import {PvpRoom} from '../models/pvp-room';
 import {User} from '../models/user';
 
 @Injectable({
@@ -16,23 +16,44 @@ export class CommunicationService {
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-
-  getEvents(): Observable<Event[]>{
-    return this.http.get<Event[]>(this.configUrl + 'events/getAll', this.httpOptions);
+  getPvpRoom(id: number): Observable<PvpRoom>{
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/get?id=' + id, this.httpOptions);
   }
-  addEvent(event: Event): Observable<Event> {
-    return this.http.post<Event>(this.configUrl + 'events/post', event);
+  getPvpRooms(): Observable<PvpRoom[]>{
+    return this.http.get<PvpRoom[]>(this.configUrl + 'rooms/getAll', this.httpOptions);
   }
-
-  deleteEvent(id: number): Observable<{}> {
-    const url = `${this.configUrl + 'events/delete'}/${id}`;
+  addPvpRoom(pvpRoom: PvpRoom): Observable<PvpRoom> {
+    return this.http.post<PvpRoom>(this.configUrl + 'rooms/post', pvpRoom);
+  }
+  startPvpRoom(roomId: number): Observable<PvpRoom> {
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/start?roomId=' + roomId);
+  }
+  actionPvpRoom(roomId: number, initiatorId: string, targetId: string, actionType: string): Observable<PvpRoom>{
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/action?roomId=' + roomId + '&initiatorId=' + initiatorId +
+    '&targetId=' + targetId + '&actionType=' + actionType);
+  }
+  endTurnPvpRoom(roomId: number, id: string): Observable<PvpRoom>{
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/endTurn?roomId=' + roomId + '&userId=' + id);
+  }
+  endGamePvpRoom(roomId: number): Observable<PvpRoom>{
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/endGame?roomId=' + roomId);
+  }
+  finishGamePvpRoom(roomId: number): Observable<PvpRoom>{
+    return this.http.get<PvpRoom>(this.configUrl + 'rooms/finishGame?roomId=' + roomId);
+  }
+  deletePvpRoom(id: number): Observable<{}> {
+    const url = `${this.configUrl + 'rooms/delete'}/${id}`;
     return this.http.delete(url, this.httpOptions);
   }
   getUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.configUrl + 'users/getAll', this.httpOptions);
   }
-  addUser(event: User): Observable<User>{
-    return this.http.post<User>(this.configUrl + 'users/post', event);
+  getUser(id: string): Observable<User>{
+    return this.http.get<User>(this.configUrl + 'users/get?id=' + id, this.httpOptions);
+  }
+  addUser(user: User): Observable<User>{
+    console.log(user);
+    return this.http.post<User>(this.configUrl + 'users/post', user);
   }
 
   deleteUser(id: number): Observable<{}> {

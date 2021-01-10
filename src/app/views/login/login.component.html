@@ -1,10 +1,11 @@
 <div class = "loginForm">
+  <br>
   <mat-slide-toggle *ngIf="login" color="primary" [(ngModel)]="login">Conectare</mat-slide-toggle>
   <mat-slide-toggle *ngIf="!login" color="primary" [(ngModel)]="login">Inregistrare</mat-slide-toggle>
   <br>
   <mat-form-field *ngIf="!login" class="form-text">
     <mat-label>Nume</mat-label>
-    <input type="text" matInput [formControl]="nameFormControl" placeholder="Nume" [(ngModel)]="user.userName">
+    <input type="text" matInput [formControl]="nameFormControl" placeholder="Nume" [(ngModel)]="user.uname">
     <mat-error *ngIf="nameFormControl.hasError('required')">
       Numele este un camp <strong>obligatoriu</strong>
     </mat-error>
@@ -12,7 +13,7 @@
   <br *ngIf="!login">
   <mat-form-field class="form-text">
     <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" placeholder="Email" [(ngModel)]="user.userEmail">
+    <input type="email" matInput [formControl]="emailFormControl" placeholder="Email" [(ngModel)]="user.uemail">
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
       Va rugam sa introduceti o adresa de mail valida
     </mat-error>
@@ -33,16 +34,7 @@
     </mat-error>
   </mat-form-field>
   <br>
-  <br *ngIf="login">
-  <mat-form-field *ngIf="!login" appearance="fill">
-    <mat-label>Tipul de utilizator</mat-label>
-    <mat-select [(value)]="user.userType">
-      <mat-option *ngFor="let userType of userTypes" [value]="userType.value">
-        {{userType.viewValue}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br *ngIf="!login">
+  <br>
   <button *ngIf="login" (click)="logIn()" mat-raised-button color="primary">Conectare</button>
   <button *ngIf="!login" (click)="signup()" mat-raised-button color="primary">Inregistrare</button>
 </div>

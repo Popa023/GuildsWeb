@@ -17,12 +17,15 @@ import {HttpClientModule} from '@angular/common/http';
 import { MainPageComponent } from './views/main-page/main-page.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
+import { GameComponent } from './views/game/game.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainPageComponent
+    MainPageComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatTableModule,
     MatIconModule,
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule
   ],

@@ -1,0 +1,49 @@
+<button (click)="startGame()" style="float: right;" mat-raised-button color="warn">Start Joc</button>
+<button (click)="endTurn()" style="float: right;" mat-raised-button color="warn">Final de Tura</button>
+<button (click)="endGame()" style="float: right;" mat-raised-button color="warn">Final de Joc</button>
+<button (click)="finishGame()" style="float: right;" mat-raised-button color="warn">Termina Joc</button>
+
+<br>
+<div class="player">
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{userSession.getGame().rfirstplayer.uname}}</mat-card-title>
+    <mat-card-subtitle>{{userSession.getGame().rfirstplayer.ukingdom}}</mat-card-subtitle>
+  </mat-card-header>
+  <img
+    src="../../../assets/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_000.png"
+    height="200" width="200"/>
+  <mat-card-content>
+    <p>
+      Health = {{userSession.getGame().rfirstplayer.ucharacter.chealth}}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button (click)="actionGame('attack')" style="float: right;" mat-raised-button color="warn">Atac</button>
+    <button (click)="actionGame('potion')" style="float: right;" mat-raised-button color="warn">Potiune</button>
+    <button (click)="actionGame('critical')" style="float: right;" mat-raised-button color="warn">Critica</button>
+    <button (click)="actionGame('bleed')" style="float: right;" mat-raised-button color="warn">Bleed</button>
+  </mat-card-actions>
+</mat-card>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{userSession.getGame().rsecondplayer.uname}}</mat-card-title>
+      <mat-card-subtitle>{{userSession.getGame().rsecondplayer.ukingdom}}</mat-card-subtitle>
+    </mat-card-header>
+    <img
+      src="../../../assets/craftpix-net-484869-free-minotaur-tiny-style-2d-sprites/PNG/Minotaur_01/PNG Sequences/Attacking/Minotaur_01_Attacking_000.png"
+      height="200" width="200"/>    <mat-card-content>
+      <p>
+        Health = {{userSession.getGame().rsecondplayer.ucharacter.chealth}}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="actionGame('attack')" style="float: right;" mat-raised-button color="warn">Atac</button>
+      <button (click)="actionGame('critical')" style="float: right;" mat-raised-button color="warn">Critica</button>
+      <button (click)="actionGame('bleed')" style="float: right;" mat-raised-button color="warn">Bleed</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
